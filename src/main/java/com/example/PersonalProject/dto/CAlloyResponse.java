@@ -25,4 +25,10 @@ public class CAlloyResponse {
     private String imageUrl;
 
     private String imageKey;
+
+    private String shopName;
+    private String shopCity;
+    private String shopState;
+    private String phoneNumber;
+    private String dealerName;
 }

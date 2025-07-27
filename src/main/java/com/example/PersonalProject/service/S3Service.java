@@ -59,7 +59,8 @@ public class S3Service {
             String imageUrl = s3Client.getUrl(bucketName, key).toString();
 
             if(alloy.getImageUrl()!=null && alloy.getImageKey()!=null) {
-                s3Client.deleteObject(bucketName, alloy.getImageKey());
+                //s3Client.deleteObject(bucketName, alloy.getImageKey());
+                deleteFile(alloy.getImageKey());
             }
 
             alloy.setImageKey(key);

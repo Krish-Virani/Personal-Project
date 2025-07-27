@@ -5,6 +5,8 @@ import com.example.PersonalProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PublicService {
 
@@ -17,5 +19,9 @@ public class PublicService {
 
     public boolean existsByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+
+    public Optional<User> findByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber);
     }
 }

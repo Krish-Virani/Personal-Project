@@ -20,22 +20,22 @@ public class Alloy {
 
     private String name;
 
-    private double size;                 // e.g., "15 inch", "16 inch", etc.
+    private double size;
 
-    private double width;                // e.g., "6.5J", optional
+    private double width;
 
     private int offset;
 
     private String pcd;
 
-    private double price;                // Optional price info
+    private double price;
 
-    private String imageUrl;             // Store public S3/image server URL
+    private String imageUrl;
 
     private String imageKey;
 
     @DBRef
-    private User dealer;                 // Reference to dealer who uploaded it
+    private User dealer;
 
     @DBRef
     private List<CarModel> compatibleModels;

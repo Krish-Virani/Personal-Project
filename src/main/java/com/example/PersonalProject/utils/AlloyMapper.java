@@ -1,6 +1,7 @@
 package com.example.PersonalProject.utils;
 
 import com.example.PersonalProject.dto.AlloyResponse;
+import com.example.PersonalProject.dto.C1AlloyResponse;
 import com.example.PersonalProject.dto.CAlloyResponse;
 import com.example.PersonalProject.entity.Alloy;
 import org.bson.types.ObjectId;
@@ -54,13 +55,27 @@ public class AlloyMapper {
                 .price(alloy.getPrice())
                 .imageUrl(alloy.getImageUrl())
                 .imageKey(alloy.getImageKey())
+                .dealerName(alloy.getDealer().getName())
+                .phoneNumber(alloy.getDealer().getPhoneNumber())
+                .shopCity(alloy.getDealer().getDealerProfile().getShopCity())
+                .shopName(alloy.getDealer().getDealerProfile().getShopName())
+                .shopState(alloy.getDealer().getDealerProfile().getShopState())
                 .build();
     }
 
 
-    public static List<CAlloyResponse> CtoResponseList(List<Alloy> alloys) {
+    public static C1AlloyResponse C1toResponse(Alloy alloy) {
+        return C1AlloyResponse.builder()
+                .id(String.valueOf(alloy.getId()))
+                .name(alloy.getName())
+                .imageUrl(alloy.getImageUrl())
+                .build();
+    }
+
+
+    public static List<C1AlloyResponse> C1toResponseList(List<Alloy> alloys) {
         return alloys.stream()
-                .map(AlloyMapper::CtoResponse)
+                .map(AlloyMapper::C1toResponse)
                 .collect(Collectors.toList());
     }
 }

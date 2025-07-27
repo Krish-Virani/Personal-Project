@@ -6,6 +6,7 @@ import com.example.PersonalProject.repository.car.CarModelRepository;
 import com.example.PersonalProject.service.DealerService;
 import com.example.PersonalProject.service.JwtService;
 import com.example.PersonalProject.service.PublicService;
+import com.example.PersonalProject.service.S3Service;
 import com.example.PersonalProject.utils.AlloyMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -39,6 +40,9 @@ public class DealerController {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private S3Service s3Service;
+
     private User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Object principal = authentication.getPrincipal();
@@ -70,7 +74,7 @@ public class DealerController {
             dealerService.addAlloy(alloy);
             return new ResponseEntity<>("successsful",HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<>("Bad request",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -130,8 +134,13 @@ public class DealerController {
             if (!existingAlloy.getDealer().getId().equals(loggedInUser.getId())) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not own this alloy");
             }
+            String key = existingAlloy.getImageKey();
+            if(key!=null){
+                s3Service.deleteFile(existingAlloy.getImageKey());
+            }
+
             dealerService.deleteAlloy(alloyId);
-            return new ResponseEntity<>(existingAlloy, HttpStatus.OK);
+            return new ResponseEntity<>("Alloy Deleted!", HttpStatus.OK);
 
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

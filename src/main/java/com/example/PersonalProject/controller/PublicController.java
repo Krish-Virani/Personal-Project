@@ -2,7 +2,6 @@ package com.example.PersonalProject.controller;
 
 import com.example.PersonalProject.dto.CarBrandResponse;
 import com.example.PersonalProject.dto.CarResponse;
-import com.example.PersonalProject.entity.Location;
 import com.example.PersonalProject.repository.car.CarBrandRepository;
 import com.example.PersonalProject.repository.car.CarModelRepositoryImpl;
 import com.example.PersonalProject.service.CarService;
