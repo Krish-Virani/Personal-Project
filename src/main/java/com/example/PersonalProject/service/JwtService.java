@@ -8,25 +8,33 @@ import java.util.Date;
 import io.jsonwebtoken.Jwts;
 
 import io.jsonwebtoken.*;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 
 
-@Component
+@Service
 public class JwtService {
 
-    private static final String secretKey = "17145b953423d17ef866c7a55c9941241a3e6a88086d302761681c7eaf7e54e1";
+    @Value("${jwt.secretKey}")
+    private String secret;
 
-    private final SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    private SecretKey key;
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
     public String generateToken(String phoneNumber, String userId) {
         return Jwts.builder()
                 .subject(phoneNumber)
                 .claim("userId", userId)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 3600_000)) // 1 hour
+                .expiration(new Date(System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000))
                 .signWith(key)
                 .compact();
     }
